@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LearnHub — Learn Web Development</title>
+  <style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0F172A;--bg2:#1E293B;--bg3:#334155;
+  --primary:#6366F1;--accent:#22D3EE;--success:#10B981;--danger:#EF4444;
+  --text:#F8FAFC;--text2:#CBD5E1;--text3:#94A3B8;
+  --border:#334155;--card:#1E293B;--radius:12px;--rsm:8px;
+  font-family:'Inter',sans-serif;
+}
+body{background:var(--bg);color:var(--text);min-height:100vh}
+.nav{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;gap:1.2rem;height:60px;position:sticky;top:0;z-index:100;flex-wrap:wrap}
+.logo{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.2rem;color:var(--accent);cursor:pointer;display:flex;align-items:center;gap:8px;margin-right:auto}
+.logo b{color:var(--primary)}
+.nbtn{background:none;border:none;color:var(--text2);cursor:pointer;padding:6px 12px;border-radius:var(--rsm);font-size:14px;font-family:'Inter',sans-serif;transition:.15s}
+.nbtn:hover{background:var(--bg3);color:var(--text)}.nbtn.on{color:var(--accent);background:rgba(34,211,238,.1)}
+.nsearch{background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:6px 12px;border-radius:var(--rsm);font-size:13px;font-family:'Inter',sans-serif;width:180px;outline:none}
+.nsearch:focus{border-color:var(--primary)}
+.tbtn{background:rgba(99,102,241,.15);border:1px solid var(--primary);color:var(--primary);padding:5px 12px;border-radius:var(--rsm);cursor:pointer;font-size:13px}
+.page{flex:1;padding:2rem;max-width:1100px;margin:0 auto;width:100%}
+.hero{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;padding:3rem 0 4rem}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem}
+.hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(2rem,4vw,3rem);font-weight:700;line-height:1.15;margin-bottom:1rem}
+.hero h1 em{font-style:normal;background:linear-gradient(135deg,var(--primary),var(--accent));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.hero p{color:var(--text2);font-size:1rem;line-height:1.7;margin-bottom:2rem}
+.p1{background:var(--primary);color:#fff;border:none;padding:12px 24px;border-radius:var(--rsm);cursor:pointer;font-weight:600;font-size:15px;font-family:'Inter',sans-serif;transition:.15s}
+.p1:hover{background:#818CF8;transform:translateY(-1px)}
+.p2{background:none;border:1.5px solid var(--border);color:var(--text2);padding:11px 24px;border-radius:var(--rsm);cursor:pointer;font-size:15px;font-family:'Inter',sans-serif;transition:.15s;margin-left:.75rem}
+.p2:hover{border-color:var(--primary);color:var(--primary)}
+.term{background:#0D1117;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;font-family:'JetBrains Mono',monospace}
+.term-bar{background:#1C2128;padding:10px 16px;display:flex;align-items:center;gap:6px}
+.dot{width:12px;height:12px;border-radius:50%}
+.term-body{padding:1.25rem;font-size:13px;min-height:180px;line-height:1.7;color:#e2e8f0}
+.cur{display:inline-block;width:2px;height:1em;background:var(--accent);vertical-align:-.1em;animation:blink 1s step-start infinite}
+@keyframes blink{50%{opacity:0}}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin:2rem 0 3rem}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;text-align:center}
+.snum{font-family:'Space Grotesk',sans-serif;font-size:2rem;font-weight:700;color:var(--accent)}
+.slbl{font-size:13px;color:var(--text3);margin-top:4px}
+.sec-hdr{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:1.5rem}
+.sec-ttl{font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:600}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.25rem}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;cursor:pointer;transition:.2s;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--ca,var(--primary))}
+.card:hover{border-color:var(--ca,var(--primary));transform:translateY(-2px)}
+.cicon{width:44px;height:44px;border-radius:var(--rsm);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:1rem}
+.card h3{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:600;margin-bottom:.5rem}
+.card p{font-size:13px;color:var(--text3);line-height:1.6;margin-bottom:1rem}
+.badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
+.bg{background:rgba(16,185,129,.2);color:#6EE7B7}
+.bb{background:rgba(99,102,241,.2);color:#A5B4FC}
+.ba{background:rgba(245,158,11,.2);color:#FCD34D}
+.br{background:rgba(239,68,68,.2);color:#FCA5A5}
+.pbar{background:var(--bg3);border-radius:4px;height:5px;margin-top:1rem}
+.pfill{height:100%;border-radius:4px;background:var(--ca,var(--primary));transition:width .5s}
+.ll{display:grid;grid-template-columns:260px 1fr;gap:2rem;align-items:start}
+.sb{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;position:sticky;top:80px}
+.sb h3{font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:600;margin-bottom:1rem;color:var(--text2)}
+.li{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:var(--rsm);cursor:pointer;font-size:13px;color:var(--text2);transition:.15s;margin-bottom:2px}
+.li:hover{background:var(--bg3)}.li.on{background:rgba(99,102,241,.15);color:var(--accent)}
+.lchk{width:18px;height:18px;border-radius:50%;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0}
+.lchk.ok{background:var(--success);border-color:var(--success);color:#fff}
+.ca{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:2rem}
+.ltitle{font-family:'Space Grotesk',sans-serif;font-size:1.75rem;font-weight:700;margin-bottom:.5rem}
+.lmeta{display:flex;gap:1rem;font-size:13px;color:var(--text3);margin-bottom:1.5rem;align-items:center;flex-wrap:wrap}
+.lbody p{color:var(--text2);line-height:1.8;margin-bottom:1rem;font-size:15px}
+.lbody h3{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.1rem;margin:1.5rem 0 .75rem;color:var(--text)}
+.lbody code{color:var(--accent);background:rgba(34,211,238,.1);padding:1px 5px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:.9em}
+.lbody strong{color:var(--text)}
+.cblk{background:#0D1117;border:1px solid var(--border);border-radius:var(--rsm);padding:1.25rem;font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.7;margin:1rem 0;overflow-x:auto;white-space:pre;color:#e2e8f0}
+.lnav{display:flex;gap:.75rem;margin-top:2rem;justify-content:space-between;align-items:center;flex-wrap:wrap}
+.qcard{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:2rem;max-width:680px;margin:0 auto}
+.qpbar{background:var(--bg3);border-radius:4px;height:5px;margin-bottom:2rem}
+.qq{font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:600;margin-bottom:1.5rem;line-height:1.5}
+.qopts{display:flex;flex-direction:column;gap:.75rem}
+.qo{background:var(--bg2);border:1.5px solid var(--border);border-radius:var(--rsm);padding:.9rem 1.25rem;cursor:pointer;font-size:14px;color:var(--text2);transition:.15s;text-align:left;width:100%;font-family:'Inter',sans-serif}
+.qo:hover:not([disabled]){border-color:var(--primary);color:var(--text)}
+.qo.ok{border-color:var(--success);background:rgba(16,185,129,.1);color:#6EE7B7}
+.qo.no{border-color:var(--danger);background:rgba(239,68,68,.1);color:#FCA5A5}
+.fb{margin-top:1rem;padding:.75rem 1rem;border-radius:var(--rsm);font-size:14px}
+.fb.ok{background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.3);color:#6EE7B7}
+.fb.no{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);color:#FCA5A5}
+.scr{text-align:center;padding:2rem}
+.sbig{font-family:'Space Grotesk',sans-serif;font-size:4rem;font-weight:700;color:var(--accent)}
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.epane{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.ehdr{background:var(--bg2);padding:10px 16px;display:flex;align-items:center;gap:8px;justify-content:space-between}
+.ehdr span{font-size:13px;font-weight:500;color:var(--text2)}
+.etabs{display:flex;gap:4px}
+.etab{background:none;border:none;padding:5px 12px;border-radius:var(--rsm);cursor:pointer;font-size:12px;font-family:'Inter',sans-serif;color:var(--text3);transition:.15s}
+.etab.on{background:rgba(99,102,241,.2);color:var(--primary)}
+.ced{width:100%;background:#0D1117;border:none;color:#E2E8F0;font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.7;padding:1rem;resize:none;height:300px;outline:none}
+.opane{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.runbtn{background:var(--success);color:#fff;border:none;padding:6px 16px;border-radius:var(--rsm);cursor:pointer;font-size:13px;font-weight:600;font-family:'Inter',sans-serif}
+.outf{width:100%;height:340px;border:none;background:#fff;display:block}
+.ppage{max-width:800px}
+.cpi{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin-bottom:1rem}
+.cpih{display:flex;align-items:center;gap:1rem;margin-bottom:1rem;flex-wrap:wrap}
+.cpiico{width:40px;height:40px;border-radius:var(--rsm);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.cpittl{font-family:'Space Grotesk',sans-serif;font-weight:600}
+.cpipct{margin-left:auto;font-family:'Space Grotesk',sans-serif;font-size:1.25rem;font-weight:700}
+.cert{background:linear-gradient(135deg,#0F172A,#1E1B4B);border:2px solid var(--primary);border-radius:16px;padding:3rem;text-align:center;max-width:680px;margin:0 auto;position:relative}
+.cert-in{position:absolute;inset:8px;border:1px solid rgba(99,102,241,.3);border-radius:12px;pointer-events:none}
+.cert h1{font-family:'Space Grotesk',sans-serif;font-size:2rem;font-weight:700;margin-bottom:.5rem}
+.cname{font-family:'Space Grotesk',sans-serif;font-size:2.5rem;font-weight:700;color:var(--accent);margin:1.5rem 0;border-bottom:2px solid var(--primary);padding-bottom:1rem}
+.sr{background:var(--card);border:1px solid var(--border);border-radius:var(--rsm);padding:1rem 1.25rem;margin-bottom:.75rem;cursor:pointer;transition:.15s}
+.sr:hover{border-color:var(--primary)}
+.sr-t{font-weight:500;margin-bottom:4px}.sr-m{font-size:12px;color:var(--text3)}
+.bbtn{background:none;border:none;color:var(--text3);cursor:pointer;font-size:14px;display:flex;align-items:center;gap:6px;padding:0;margin-bottom:1.5rem;font-family:'Inter',sans-serif}
+.bbtn:hover{color:var(--text)}
+.div{border:none;border-top:1px solid var(--border);margin:1.5rem 0}
+.chip{padding:3px 10px;border-radius:20px;font-size:11px;display:inline-block;margin:2px}
+@media(max-width:768px){
+  .hero{grid-template-columns:1fr;padding:2rem 0}.term{display:none}
+  .stats{grid-template-columns:repeat(2,1fr)}.ll{grid-template-columns:1fr}
+  .pgrid{grid-template-columns:1fr}.nsearch{width:100px}
+}
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <div class="logo" onclick="go('home')">&#x27E8;/&#x27E9; <b>Learn</b>Hub</div>
+  <button class="nbtn" id="nb-home"       onclick="go('home')">Home</button>
+  <button class="nbtn" id="nb-courses"    onclick="go('courses')">Courses</button>
+  <button class="nbtn" id="nb-playground" onclick="go('playground')">Playground</button>
+  <button class="nbtn" id="nb-progress"   onclick="go('progress')">Progress</button>
+  <input class="nsearch" id="srchBox" type="text" placeholder="Search lessons&#x2026;" oninput="doSearch(this.value)">
+  <button class="tbtn" id="themeBtn" onclick="toggleTheme()">&#9728; Light</button>
+</nav>
+<div class="page" id="root"></div>
+
+<!-- ALL COURSE DATA LIVES HERE — browser never HTML-parses type=application/json -->
+<script type="application/json" id="courseData">
+[
+  {
+    "id": "html",
+    "name": "HTML Fundamentals",
+    "icon": "🌐",
+    "color": "#F97316",
+    "badge": "Beginner",
+    "bc": "bg",
+    "desc": "Learn semantic HTML5, forms, accessibility, and media embedding.",
+    "lessons": [
+      {
+        "id": "html-1",
+        "title": "What is HTML?",
+        "dur": "8 min",
+        "body": "<p>HTML (HyperText Markup Language) is the backbone of every webpage. It defines the <strong>structure and meaning</strong> of web content using elements called tags.</p><h3>Your first HTML document</h3><p>Every HTML file follows a basic structure with a doctype declaration, head section (metadata), and body section (visible content).</p>",
+        "code": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <h1>Hello, World!</h1>\n  <p>Welcome to HTML.</p>\n</body>\n</html>",
+        "quiz": [
+          {
+            "q": "What does HTML stand for?",
+            "opts": [
+              "HyperText Markup Language",
+              "High Transfer Machine Language",
+              "Hyper Tool Markup Language",
+              "HyperText Modern Language"
+            ],
+            "ans": 0
+          },
+          {
+            "q": "Which tag defines the visible content of a page?",
+            "opts": [
+              "&lt;head&gt;",
+              "&lt;meta&gt;",
+              "&lt;body&gt;",
+              "&lt;html&gt;"
+            ],
+            "ans": 2
+          }
+        ]
+      },
+      {
+        "id": "html-2",
+        "title": "Semantic Elements",
+        "dur": "10 min",
+        "body": "<p>Semantic HTML uses meaningful tags that describe the <strong>purpose</strong> of content, not just its appearance. This helps search engines and screen readers understand your page.</p><h3>Key semantic elements</h3><p>Elements like &lt;header&gt;, &lt;main&gt;, &lt;article&gt;, &lt;section&gt;, &lt;aside&gt;, and &lt;footer&gt; communicate structure and meaning.</p>",
+        "code": "<header>\n  <nav>...</nav>\n</header>\n<main>\n  <article>\n    <h1>Article Title</h1>\n    <p>Content here...</p>\n  </article>\n</main>\n<footer>© 2025</footer>",
+        "quiz": [
+          {
+            "q": "Which element is most appropriate for the main navigation?",
+            "opts": [
+              "&lt;div&gt;",
+              "&lt;nav&gt;",
+              "&lt;section&gt;",
+              "&lt;span&gt;"
+            ],
+            "ans": 1
+          },
+          {
+            "q": "What is the main benefit of semantic HTML?",
+            "opts": [
+              "Faster page loads",
+              "Better styling options",
+              "Improved accessibility & SEO",
+              "More colorful pages"
+            ],
+            "ans": 2
+          }
+        ]
+      },
+      {
+        "id": "html-3",
+        "title": "Forms & Input",
+        "dur": "12 min",
+        "body": "<p>HTML forms allow users to <strong>submit data</strong>. They contain input elements like text fields, checkboxes, radio buttons, dropdowns, and submit buttons.</p><h3>Form attributes</h3><p>The <code>action</code> attribute specifies where to send form data, and <code>method</code> defines GET or POST.</p>",
+        "code": "<form action=\"/submit\" method=\"POST\">\n  <label for=\"name\">Name:</label>\n  <input type=\"text\" id=\"name\" name=\"name\" required>\n\n  <label for=\"email\">Email:</label>\n  <input type=\"email\" id=\"email\" name=\"email\">\n\n  <button type=\"submit\">Send</button>\n</form>",
+        "quiz": [
+          {
+            "q": "Which input type validates email format automatically?",
+            "opts": [
+              "type=\"text\"",
+              "type=\"email\"",
+              "type=\"mail\"",
+              "type=\"validate\""
+            ],
+            "ans": 1
+          },
+          {
+            "q": "Which HTTP method is typically used to submit sensitive form data?",
+            "opts": [
+              "GET",
+              "PUT",
+              "POST",
+              "DELETE"
+            ],
+            "ans": 2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "css",
+    "name": "CSS Styling",
+    "icon": "🎨",
+    "color": "#6366F1",
+    "badge": "Beginner",
+    "bc": "bb",
+    "desc": "Master Flexbox, Grid, animations, and responsive design.",
+    "lessons": [
+      {
+        "id": "css-1",
+        "title": "Selectors & Specificity",
+        "dur": "9 min",
+        "body": "<p>CSS selectors target HTML elements to apply styles. Understanding <strong>specificity</strong> determines which rules win when multiple rules apply to the same element.</p><h3>Specificity hierarchy</h3><p>Inline styles &gt; IDs &gt; Classes / Attributes / Pseudo-classes &gt; Elements / Pseudo-elements. Each level has a weight in the cascade.</p>",
+        "code": "/* Element selector — weight: 001 */\np { color: gray; }\n\n/* Class selector — weight: 010 */\n.highlight { color: blue; }\n\n/* ID selector — weight: 100 */\n#hero { color: red; }\n\n/* Combined — weight: 011 */\ndiv.card { background: white; }",
+        "quiz": [
+          {
+            "q": "Which selector has the highest specificity?",
+            "opts": [
+              "p",
+              "#main",
+              ".active",
+              ".nav a"
+            ],
+            "ans": 1
+          },
+          {
+            "q": "What does the CSS cascade determine?",
+            "opts": [
+              "Page layout",
+              "Which style rules apply when conflicts exist",
+              "Font loading order",
+              "HTML structure"
+            ],
+            "ans": 1
+          }
+        ]
+      },
+      {
+        "id": "css-2",
+        "title": "Flexbox Layout",
+        "dur": "14 min",
+        "body": "<p>Flexbox is a <strong>one-dimensional layout</strong> system that makes it easy to align and distribute space among items in a container, even when their size is unknown.</p><h3>Key properties</h3><p>Set <code>display: flex</code> on the parent, then use <code>justify-content</code> and <code>align-items</code> to control layout.</p>",
+        "code": ".container {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  gap: 1rem;\n  flex-wrap: wrap;\n}\n\n.item {\n  flex: 1;\n  min-width: 200px;\n}",
+        "quiz": [
+          {
+            "q": "Which property controls alignment along the cross axis in Flexbox?",
+            "opts": [
+              "justify-content",
+              "align-items",
+              "flex-direction",
+              "flex-wrap"
+            ],
+            "ans": 1
+          },
+          {
+            "q": "What value of justify-content places items at each end with space between?",
+            "opts": [
+              "center",
+              "space-around",
+              "space-between",
+              "flex-end"
+            ],
+            "ans": 2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "js",
+    "name": "JavaScript",
+    "icon": "⚡",
+    "color": "#EAB308",
+    "badge": "Intermediate",
+    "bc": "ba",
+    "desc": "From DOM manipulation to async/await and modern ES2025 features.",
+    "lessons": [
+      {
+        "id": "js-1",
+        "title": "Variables & Data Types",
+        "dur": "10 min",
+        "body": "<p>JavaScript has three ways to declare variables: <strong>var</strong> (legacy), <strong>let</strong> (block-scoped, reassignable), and <strong>const</strong> (block-scoped, not reassignable). Modern JS uses let and const exclusively.</p><h3>Primitive types</h3><p>String, Number, Boolean, null, undefined, Symbol, and BigInt are the seven primitive types. Objects and Arrays are reference types.</p>",
+        "code": "const name = \"LearnHub\";    // string\nlet score = 0;               // number\nconst isReady = true;        // boolean\nlet user = null;             // null\n\n// Arrays\nconst topics = [\"HTML\", \"CSS\", \"JS\"];\n\n// Objects\nconst student = {\n  name: \"Ada\",\n  level: 3,\n  courses: [\"HTML\", \"CSS\"]\n};",
+        "quiz": [
+          {
+            "q": "Which keyword declares a block-scoped, non-reassignable variable?",
+            "opts": [
+              "var",
+              "let",
+              "const",
+              "static"
+            ],
+            "ans": 2
+          },
+          {
+            "q": "What is the output of typeof null in JavaScript?",
+            "opts": [
+              "\"null\"",
+              "\"undefined\"",
+              "\"object\"",
+              "\"boolean\""
+            ],
+            "ans": 2
+          }
+        ]
+      },
+      {
+        "id": "js-2",
+        "title": "DOM Manipulation",
+        "dur": "15 min",
+        "body": "<p>The DOM (Document Object Model) is a <strong>tree representation</strong> of the HTML document. JavaScript can select, modify, add, and remove DOM elements to create dynamic web pages.</p><h3>Selecting elements</h3><p>Use <code>querySelector</code> for a single element or <code>querySelectorAll</code> for multiple elements matching a CSS selector.</p>",
+        "code": "// Select elements\nconst btn = document.querySelector('#myBtn');\nconst cards = document.querySelectorAll('.card');\n\n// Modify content\nbtn.textContent = 'Clicked!';\nbtn.style.background = 'green';\n\n// Listen for events\nbtn.addEventListener('click', () => {\n  document.querySelector('h1').classList.toggle('active');\n});",
+        "quiz": [
+          {
+            "q": "Which method selects ALL matching elements?",
+            "opts": [
+              "getElementById",
+              "querySelector",
+              "querySelectorAll",
+              "getElement"
+            ],
+            "ans": 2
+          },
+          {
+            "q": "Which method adds an event listener to an element?",
+            "opts": [
+              "on()",
+              "bind()",
+              "addEventListener()",
+              "listen()"
+            ],
+            "ans": 2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "react",
+    "name": "React",
+    "icon": "⚛",
+    "color": "#22D3EE",
+    "badge": "Advanced",
+    "bc": "br",
+    "desc": "Components, hooks, Context API, and modern React patterns.",
+    "lessons": [
+      {
+        "id": "react-1",
+        "title": "Components & Props",
+        "dur": "12 min",
+        "body": "<p>React components are <strong>reusable UI building blocks</strong>. Function components accept props (properties) as input and return JSX describing what to render. Props flow down from parent to child.</p><h3>Component composition</h3><p>Break UIs into small, focused components. A Button component might accept <code>label</code>, <code>onClick</code>, and <code>variant</code> props.</p>",
+        "code": "function CourseCard({ title, level, lessons }) {\n  return (\n    <div className='card'>\n      <h3>{title}</h3>\n      <span className='badge'>{level}</span>\n      <p>{lessons} lessons</p>\n    </div>\n  );\n}\n\n// Usage\n<CourseCard\n  title='HTML Fundamentals'\n  level='Beginner'\n  lessons={12}\n/>",
+        "quiz": [
+          {
+            "q": "What are React props?",
+            "opts": [
+              "Internal component state",
+              "Read-only data passed from parent to child",
+              "CSS class names",
+              "Event listeners"
+            ],
+            "ans": 1
+          },
+          {
+            "q": "What does JSX compile to?",
+            "opts": [
+              "HTML strings",
+              "React.createElement() calls",
+              "CSS",
+              "JSON"
+            ],
+            "ans": 1
+          }
+        ]
+      }
+    ]
+  }
+]
+</script>
+
+<script>
+var COURSES = JSON.parse(document.getElementById('courseData').textContent);
+
+var DEF = {
+  html: '<!DOCTYPE html>\n<html>\n<head>\n<style>\nbody{font-family:system-ui;padding:2rem;background:#f0f9ff}\nh1{color:#6366f1}\nbutton{background:#6366f1;color:#fff;padding:8px 20px;border:none;border-radius:6px;cursor:pointer}\n</style>\n</head>\n<body>\n  <h1>Hello, LearnHub! &#x1F680;</h1>\n  <p>Edit this code and click Run.</p>\n  <button onclick="alert(\'Clicked!\')">Click me</button>\n</body>\n</html>',
+  css: 'body {\n  font-family: system-ui;\n  background: linear-gradient(135deg,#667eea,#764ba2);\n  min-height: 100vh;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.box {\n  background: white;\n  padding: 2rem;\n  border-radius: 12px;\n  text-align: center;\n}',
+  js:  "const nums = [1,2,3,4,5];\nconst doubled = nums.map(n => n * 2);\ndocument.body.innerHTML =\n  '<div style=\"font-family:system-ui;padding:2rem\">' +\n  '<h2 style=\"color:#6366f1\">Hello from JS!</h2>' +\n  '<p>Doubled: ' + doubled + '</p>' +\n  '</div>';"
+};
+
+var S = { page:'home', ci:0, li:0, quiz:null, tab:'html', code:{html:DEF.html,css:DEF.css,js:DEF.js}, done:{}, q:'' };
+try { var sv=localStorage.getItem('lh3'); if(sv) S.done=JSON.parse(sv); } catch(e){}
+function save(){ try{localStorage.setItem('lh3',JSON.stringify(S.done));}catch(e){} }
+function markDone(id){ S.done[id]=true; save(); }
+function isDone(id){ return !!S.done[id]; }
+function prog(c){ var n=c.lessons.length, d=c.lessons.filter(function(l){return isDone(l.id);}).length; return {d:d,n:n,pct:n?Math.round(d/n*100):0}; }
+function cc(){ return COURSES[S.ci]; }
+function cl(){ return cc().lessons[S.li]; }
+
+function go(page,ci,li){
+  S.page=page;
+  if(ci!==undefined) S.ci=ci;
+  if(li!==undefined) S.li=li;
+  if(page!=='quiz') S.quiz=null;
+  document.querySelectorAll('.nbtn').forEach(function(b){b.classList.remove('on');});
+  var nb=document.getElementById('nb-'+page); if(nb) nb.classList.add('on');
+  render(); window.scrollTo(0,0);
+}
+
+var lm=false;
+function toggleTheme(){
+  lm=!lm; var r=document.documentElement;
+  if(lm){r.style.setProperty('--bg','#F8FAFC');r.style.setProperty('--bg2','#F1F5F9');r.style.setProperty('--bg3','#E2E8F0');r.style.setProperty('--card','#FFFFFF');r.style.setProperty('--text','#0F172A');r.style.setProperty('--text2','#334155');r.style.setProperty('--text3','#64748B');r.style.setProperty('--border','#E2E8F0');}
+  else{r.style.setProperty('--bg','#0F172A');r.style.setProperty('--bg2','#1E293B');r.style.setProperty('--bg3','#334155');r.style.setProperty('--card','#1E293B');r.style.setProperty('--text','#F8FAFC');r.style.setProperty('--text2','#CBD5E1');r.style.setProperty('--text3','#94A3B8');r.style.setProperty('--border','#334155');}
+  document.getElementById('themeBtn').textContent=lm?'🌙 Dark':'☀ Light';
+}
+
+function doSearch(v){ S.q=v; if(v.length>1){S.page='search';render();} }
+
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function B(lbl,cls,fn){ return '<button class="'+cls+'" onclick="'+fn+'">'+lbl+'</button>'; }
+function statBox(n,l){ return '<div class="stat"><div class="snum">'+n+'</div><div class="slbl">'+l+'</div></div>'; }
+
+function render(){
+  var el=document.getElementById('root');
+  if(S.page==='home'){el.innerHTML=pageHome();startTypewriter();}
+  else if(S.page==='courses') el.innerHTML=pageCourses();
+  else if(S.page==='lesson')  el.innerHTML=pageLesson();
+  else if(S.page==='quiz')    el.innerHTML=pageQuiz();
+  else if(S.page==='playground'){el.innerHTML=pagePlay();initPlay();}
+  else if(S.page==='progress') el.innerHTML=pageProgress();
+  else if(S.page==='certificate') el.innerHTML=pageCert();
+  else if(S.page==='search')   el.innerHTML=pageSearch();
+}
+
+function courseCard(c,ci){
+  var pr=prog(c);
+  return '<div class="card" style="--ca:'+c.color+'" onclick="go(\'lesson\','+ci+',0)">'+
+    '<div class="cicon" style="background:'+c.color+'22">'+c.icon+'</div>'+
+    '<h3>'+c.name+'</h3><p>'+c.desc+'</p>'+
+    '<div style="display:flex;gap:8px;margin-bottom:.75rem">'+
+    '<span class="badge '+c.bc+'">'+c.badge+'</span>'+
+    '<span class="badge" style="background:rgba(148,163,184,.1);color:var(--text3)">'+c.lessons.length+' lessons</span></div>'+
+    '<div class="pbar"><div class="pfill" style="width:'+pr.pct+'%;background:'+c.color+'"></div></div>'+
+    '<div style="font-size:13px;color:var(--text3);margin-top:.5rem">'+pr.d+'/'+pr.n+' &middot; '+pr.pct+'%</div>'+
+    '</div>';
+}
+
+function pageHome(){
+  return '<div class="hero"><div>'+
+    '<p class="eyebrow">&#x1F680; Free Web Dev Education</p>'+
+    '<h1>Learn to build the<br><em>modern web</em></h1>'+
+    '<p>Structured courses, interactive quizzes, a live code playground &mdash; everything you need to go from zero to full-stack developer.</p>'+
+    '<div>'+B('Start Learning Free','p1',"go('courses')")+B('Try Playground','p2',"go('playground')")+'</div></div>'+
+    '<div class="term"><div class="term-bar">'+
+    '<div class="dot" style="background:#FF5F57"></div><div class="dot" style="background:#FFBD2E"></div><div class="dot" style="background:#28C840"></div>'+
+    '<span style="margin-left:auto;font-size:11px;color:var(--text3)">learnhub.dev</span></div>'+
+    '<div class="term-body"><span style="color:var(--text3)">$ </span><span id="tline"></span><span class="cur"></span></div></div></div>'+
+    '<div class="stats">'+statBox('42+','Lessons')+statBox('4','Courses')+statBox('12+','Quizzes')+statBox('1','Playground')+'</div>'+
+    '<div class="sec-hdr"><span class="sec-ttl">Featured Courses</span>'+B('View all &rarr;','p2',"go('courses')")+'</div>'+
+    '<div class="grid">'+COURSES.map(courseCard).join('')+'</div>';
+}
+
+var tt=null;
+function startTypewriter(){
+  var snips=['<h1>Hello, World!</h1>','const learn = "LearnHub";','.hero { display: flex; }','import React from "react";','const [dark,setDark]=useState(true);'];
+  var si=0,ci=0; var el=document.getElementById('tline'); if(!el) return;
+  clearTimeout(tt); el.textContent='';
+  function type(){ var e=document.getElementById('tline'); if(!e) return; if(ci<snips[si].length){e.textContent+=snips[si][ci++];tt=setTimeout(type,45);}else{tt=setTimeout(function(){var i=snips[si].length;function del(){var e2=document.getElementById('tline');if(!e2)return;if(i>0){e2.textContent=snips[si].slice(0,--i);tt=setTimeout(del,20);}else{si=(si+1)%snips.length;ci=0;tt=setTimeout(type,400);}}del();},1400);}}
+  type();
+}
+
+function pageCourses(){
+  return '<h2 class="sec-ttl" style="margin-bottom:1.5rem">All Courses</h2><div class="grid">'+COURSES.map(courseCard).join('')+'</div>';
+}
+
+function pageLesson(){
+  var c=cc(),l=cl(),ci=S.ci,li=S.li;
+  var sb='<div class="sb"><h3>'+c.icon+' '+c.name+'</h3>'+
+    c.lessons.map(function(ls,i){
+      var dk=isDone(ls.id);
+      return '<div class="li'+(i===li?' on':'')+'" onclick="go(\'lesson\','+ci+','+i+')">'+
+        '<div class="lchk'+(dk?' ok':'')+'">'+( dk?'&#10003;':''  )+'</div><span>'+ls.title+'</span></div>';
+    }).join('')+
+    '<hr class="div">'+B('&#x1F4CA; My Progress','p1',"go('progress')")+'</div>';
+  var nxt = li<c.lessons.length-1
+    ? B('Next Lesson &rarr;','p2',"markDone('"+l.id+"');go('lesson',"+ci+","+(li+1)+")")
+    : B('Complete Course &#x1F393;','p2','finishCourse()');
+  var prv = li>0 ? B('&larr; Previous','p2',"go('lesson',"+ci+","+(li-1)+")") : '';
+  var content='<div class="ca">'+
+    '<div class="ltitle">'+l.title+'</div>'+
+    '<div class="lmeta"><span>&#x23F1; '+l.dur+'</span>'+
+    '<span>'+(isDone(l.id)?'<span style="color:var(--success)">&#10003; Completed</span>':'<span>In progress</span>')+'</span>'+
+    '<span class="badge '+c.bc+'">'+c.name+'</span></div>'+
+    '<div class="lbody">'+l.body+'</div>'+
+    '<h3 style="font-family:\'Space Grotesk\',sans-serif;font-size:1rem;font-weight:600;margin:1.5rem 0 .75rem">Code example</h3>'+
+    '<div class="cblk">'+esc(l.code)+'</div>'+
+    '<div class="lnav"><div>'+prv+'</div><div style="display:flex;gap:.75rem">'+B('Take Quiz &rarr;','p1','startQuiz()')+nxt+'</div></div></div>';
+  return B('&larr; Back to courses','bbtn',"go('courses')")+'<div class="ll">'+sb+content+'</div>';
+}
+function finishCourse(){ markDone(cl().id); var pr=prog(cc()); go(pr.pct===100?'certificate':'courses'); }
+
+function startQuiz(){ S.page='quiz'; S.quiz={step:0,score:0,ans:[]}; render(); }
+function pageQuiz(){
+  var l=cl(),qs=l.quiz,ci=S.ci,li=S.li;
+  if(!S.quiz) S.quiz={step:0,score:0,ans:[]};
+  var qd=S.quiz;
+  if(qd.step>=qs.length){
+    markDone(l.id);
+    var pct=Math.round(qd.score/qs.length*100);
+    var msg=pct>=80?'&#x1F389; Excellent! Lesson marked complete.':pct>=50?'&#x1F44D; Good effort! Review and try again.':'&#x1F4DA; Keep studying!';
+    var nxtBtn=li<cc().lessons.length-1?B('Next Lesson &rarr;','p1',"S.quiz=null;go('lesson',"+ci+","+(li+1)+")"):'';
+    return B('&larr; Back to lesson','bbtn',"go('lesson',"+ci+","+li+")")+
+      '<div class="qcard"><div class="scr">'+
+      '<div style="font-size:13px;color:var(--text3);margin-bottom:.5rem">Quiz Complete!</div>'+
+      '<div class="sbig">'+pct+'%</div>'+
+      '<p style="color:var(--text2);margin:1rem 0">'+qd.score+' of '+qs.length+' correct</p>'+
+      '<p style="color:var(--text3);font-size:14px;margin-bottom:1.5rem">'+msg+'</p>'+
+      '<div style="display:flex;gap:.75rem;justify-content:center">'+nxtBtn+B('Review Lesson','p2',"S.quiz=null;go('lesson',"+ci+","+li+")")+'</div>'+
+      '</div></div>';
+  }
+  var q=qs[qd.step], answered=qd.ans[qd.step];
+  var opts=q.opts.map(function(opt,i){
+    var cls='qo';
+    if(answered!==undefined){ if(i===q.ans) cls+=' ok'; else if(i===answered) cls+=' no'; }
+    return '<button class="'+cls+'" '+(answered!==undefined?'disabled':'')+' onclick="ansQ('+i+')">'+String.fromCharCode(65+i)+'. '+opt+'</button>';
+  }).join('');
+  var fb='';
+  if(answered!==undefined){
+    var ok=answered===q.ans;
+    fb='<div class="fb '+(ok?'ok':'no')+'">'+(ok?'&#x2705; Correct!':'&#x274C; Incorrect &mdash; correct answer: '+String.fromCharCode(65+q.ans)+'. '+q.opts[q.ans])+'</div>'+
+      '<div style="text-align:right;margin-top:1rem">'+B('Next &rarr;','p1','nxtQ()')+'</div>';
+  }
+  return B('&larr; Back to lesson','bbtn',"go('lesson',"+ci+","+li+")")+
+    '<div class="qcard">'+
+    '<div style="display:flex;justify-content:space-between;margin-bottom:.75rem">'+
+    '<span style="font-size:13px;color:var(--text3)">Question '+(qd.step+1)+' of '+qs.length+'</span>'+
+    '<span style="font-size:13px;color:var(--accent)">Score: '+qd.score+'/'+qd.step+'</span></div>'+
+    '<div class="qpbar"><div class="pfill" style="width:'+(qd.step/qs.length*100)+'%"></div></div>'+
+    '<div class="qq">'+q.q+'</div><div class="qopts">'+opts+'</div>'+fb+'</div>';
+}
+function ansQ(i){ if(!S.quiz||S.quiz.ans[S.quiz.step]!==undefined) return; S.quiz.ans[S.quiz.step]=i; if(i===cl().quiz[S.quiz.step].ans) S.quiz.score++; render(); }
+function nxtQ(){ if(S.quiz) S.quiz.step++; render(); }
+
+function pagePlay(){
+  var t=S.tab;
+  var tabs=['html','css','js'].map(function(x){ return '<button class="etab'+(t===x?' on':'')+'" onclick="swTab(\''+x+'\')">'+x.toUpperCase()+'</button>'; }).join('');
+  return '<h2 class="sec-ttl" style="margin-bottom:.5rem">Code Playground</h2>'+
+    '<p style="font-size:13px;color:var(--text3);margin-bottom:1.5rem">Write HTML, CSS, or JS and run it live.</p>'+
+    '<div class="pgrid">'+
+    '<div class="epane"><div class="ehdr"><span>Editor</span><div class="etabs">'+tabs+'</div>'+B('&#x25B6; Run','runbtn','runCode()')+'</div>'+
+    '<textarea class="ced" id="ced" oninput="updCode(this.value)"></textarea></div>'+
+    '<div class="opane"><div class="ehdr"><span>Output</span><span style="font-size:13px;color:var(--text3)">Live preview</span></div>'+
+    '<iframe class="outf" id="outf" sandbox="allow-scripts"></iframe></div></div>'+
+    '<div style="margin-top:1rem;display:flex;gap:.75rem;flex-wrap:wrap">'+
+    B('&#x21BA; Reset','p2','resetCode()')+B('&#x2398; Copy','p2','copyCode()')+
+    '<span style="font-size:13px;color:var(--text3);align-self:center">Tip: switch tabs for CSS or JS, then click Run</span></div>';
+}
+function getDoc(){ var t=S.tab; if(t==='html') return S.code.html; if(t==='css') return '<style>'+S.code.css+'</style><div class="box"><h2>CSS Preview</h2><p>Your styles appear here.</p></div>'; return '<script>'+S.code.js+'<\/script>'; }
+function initPlay(){ var ta=document.getElementById('ced'); if(ta) ta.value=S.code[S.tab]||''; runCode(); }
+function swTab(t){ S.tab=t; render(); }
+function updCode(v){ S.code[S.tab]=v; }
+function runCode(){ var f=document.getElementById('outf'); if(f) f.srcdoc=getDoc(); }
+function resetCode(){ S.code={html:DEF.html,css:DEF.css,js:DEF.js}; render(); }
+function copyCode(){ try{navigator.clipboard.writeText(S.code[S.tab]);}catch(e){} }
+
+function pageProgress(){
+  var total=COURSES.reduce(function(a,c){return a+c.lessons.length;},0);
+  var done=Object.keys(S.done).filter(function(k){return S.done[k];}).length;
+  var rows=COURSES.map(function(c,ci){
+    var pr=prog(c);
+    var certBtn=pr.pct===100?B('&#x1F393; Certificate','p1',"S.ci="+ci+";go('certificate')"):'';
+    var chips=c.lessons.map(function(l){ var ok=isDone(l.id); return '<span class="chip" style="background:'+(ok?c.color+'33':'rgba(148,163,184,.1)')+';color:'+(ok?c.color:'var(--text3)')+'">'+( ok?'&#10003; ':'' )+l.title+'</span>'; }).join('');
+    return '<div class="cpi"><div class="cpih"><div class="cpiico" style="background:'+c.color+'22">'+c.icon+'</div>'+
+      '<div><div class="cpittl">'+c.name+'</div><div style="font-size:13px;color:var(--text3)">'+pr.d+' of '+pr.n+' lessons</div></div>'+
+      '<div class="cpipct" style="color:'+c.color+'">'+pr.pct+'%</div>'+certBtn+'</div>'+
+      '<div class="pbar" style="height:8px"><div class="pfill" style="width:'+pr.pct+'%;background:'+c.color+'"></div></div>'+
+      '<div style="margin-top:.75rem">'+chips+'</div></div>';
+  }).join('');
+  return '<div class="ppage"><h2 class="sec-ttl" style="margin-bottom:1.5rem">&#x1F4CA; My Progress</h2>'+
+    '<div class="stats" style="grid-template-columns:repeat(3,1fr)">'+statBox(done,'Done')+statBox(total-done,'Remaining')+statBox(Math.round(done/total*100)+'%','Overall')+'</div>'+
+    rows+B('Reset All Progress','p2',"if(confirm('Reset all progress?')){S.done={};save();render();}")+'</div>';
+}
+
+function pageCert(){
+  var c=cc(); var date=new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+  return B('&larr; Back','bbtn',"go('progress')")+
+    '<div class="cert"><div class="cert-in"></div>'+
+    '<div style="font-size:2rem;margin-bottom:.5rem">&#x1F3C6;</div>'+
+    '<p style="font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--text3);margin-bottom:.5rem">Certificate of Completion</p>'+
+    '<h1>LearnHub Academy</h1><p style="color:var(--text3);margin-top:.25rem">This certifies that</p>'+
+    '<div class="cname">Web Developer</div>'+
+    '<p style="color:var(--text2);margin-bottom:1.5rem">has successfully completed</p>'+
+    '<div style="font-family:\'Space Grotesk\',sans-serif;font-size:1.5rem;font-weight:600;color:var(--primary);margin-bottom:1.5rem">'+c.icon+' '+c.name+'</div>'+
+    '<p style="font-size:13px;color:var(--text3);margin-bottom:2rem">Issued on '+date+'</p>'+
+    '<div style="display:flex;gap:3rem;justify-content:center;border-top:1px solid rgba(99,102,241,.3);padding-top:1.5rem">'+
+    '<div><div style="width:80px;height:1px;background:var(--text3);margin:0 auto .5rem"></div><p style="font-size:11px;color:var(--text3)">Instructor</p></div>'+
+    '<div><div style="width:80px;height:1px;background:var(--text3);margin:0 auto .5rem"></div><p style="font-size:11px;color:var(--text3)">LearnHub</p></div></div>'+
+    B('&#x1F5A8; Print Certificate','p1','window.print()')+'</div>';
+}
+
+function pageSearch(){
+  var q=S.q.toLowerCase(), results=[];
+  COURSES.forEach(function(c,ci){ c.lessons.forEach(function(l,li){ if(l.title.toLowerCase().indexOf(q)>-1||c.name.toLowerCase().indexOf(q)>-1) results.push({ci:ci,li:li,c:c,l:l}); }); });
+  var rows=results.length
+    ? results.map(function(r){ return '<div class="sr" onclick="go(\'lesson\','+r.ci+','+r.li+')"><div class="sr-t">'+r.l.title+'</div><div class="sr-m">'+r.c.icon+' '+r.c.name+' &middot; '+r.l.dur+'</div></div>'; }).join('')
+    : '<div style="text-align:center;padding:3rem;color:var(--text3)">No results for &ldquo;'+esc(S.q)+'&rdquo;</div>';
+  return '<h2 class="sec-ttl" style="margin-bottom:.5rem">Search Results</h2>'+
+    '<p style="font-size:13px;color:var(--text3);margin-bottom:1.5rem">Results for <span style="color:var(--accent)">'+esc(S.q)+'</span></p>'+rows;
+}
+
+go('home');
+</script>
+</body>
+</html>
